@@ -17,11 +17,12 @@ Verified on EndeavourOS, Hyprland 0.56, Electron 44, 28 Oct 2026:
 
 - starts as a Wayland window with the three shelves
 - copied URLs are detected and stored on the Links shelf (`wl-paste --watch`)
+- paste into the previous window (Ctrl+Enter): a copied link was pasted into a GTK text field (`zenity --entry`) using `ydotool`. Terminals such as `foot` paste with Ctrl+Shift+V, so Ctrl+V does not paste there
+- the shelves take keyboard focus when opened through `packaging/clipline` (they need no other panel holding keyboard focus: an open `quickshell:sidebarLeft` swallowed all keys during testing)
 
 **Not verified, or not working:**
 
-- paste into the previous window: **not working yet.** The overlay does not receive keyboard input from `ydotool` even when Hyprland has focused it (Escape and Ctrl+Enter did nothing in testing). Cause unknown; `focus_on_activate = false` in the compositor config makes Electron's own focus request ineffective, so the port now focuses its window with `hyprctl` (partially helps)
-- global shortcuts (Electron cannot register them on Wayland — bind a key in Hyprland instead, see below)
+- global shortcuts: Electron cannot register them on Wayland, so bind a key in Hyprland instead (see below); the Hyprland bind itself was loaded without errors but not pressed for real
 - OCR, image search, link enrichment (code is unchanged from upstream, untested on Linux)
 - screen-recording import and trim (needs a Linux media backend; currently reports "not available")
 - packaging (no AppImage/AUR package yet)
