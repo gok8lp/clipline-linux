@@ -20,7 +20,7 @@ Verified on EndeavourOS, Hyprland 0.56, Electron 44, 28 Oct 2026:
 
 **Not verified, or not working:**
 
-- paste into the previous window (needs `ydotoold` running; untested)
+- paste into the previous window: **not working yet.** The overlay does not receive keyboard input from `ydotool` even when Hyprland has focused it (Escape and Ctrl+Enter did nothing in testing). Cause unknown; `focus_on_activate = false` in the compositor config makes Electron's own focus request ineffective, so the port now focuses its window with `hyprctl` (partially helps)
 - global shortcuts (Electron cannot register them on Wayland — bind a key in Hyprland instead, see below)
 - OCR, image search, link enrichment (code is unchanged from upstream, untested on Linux)
 - screen-recording import and trim (needs a Linux media backend; currently reports "not available")
