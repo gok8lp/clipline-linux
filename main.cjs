@@ -201,6 +201,13 @@ async function writeClipboard(selected) {
     await copyFiles({files:images.map(item=>store.mediaPath(item.id)),marker:copyMarker.toString('base64'),text:values.join('\n\n')});
     ownFingerprint=(await clipboardContent())?.fingerprint||'';lastFingerprint=ownFingerprint;store.markCopied(selected.filter(item=>store.data.items.includes(item)).map(item=>item.id));return;
   }
+  if(process.platform==='linux'){
+    // One MIME type per selection: images win over text; several images become a uri-list.
+    if(images.length>1)await native.copyImages({files:images.map(item=>store.mediaPath(item.id)),text:values.join('\n\n')});
+    else if(images.length===1)await native.writeImage(store.mediaPath(images[0].id));
+    else await native.writeText(values.join('\n\n'));
+    ownFingerprint=(await clipboardContent())?.fingerprint||'';lastFingerprint=ownFingerprint;store.markCopied(selected.filter(item=>store.data.items.includes(item)).map(item=>item.id));return;
+  }
   if(images.length>1){
     await native.copyImages({files:images.map(item=>store.mediaPath(item.id)),marker:copyMarker.toString('base64'),text:values.join('\n\n')});
     ownFingerprint=(await clipboardContent())?.fingerprint||'';lastFingerprint=ownFingerprint;store.markCopied(selected.filter(item=>store.data.items.includes(item)).map(item=>item.id));return;
