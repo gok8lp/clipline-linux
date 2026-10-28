@@ -13,20 +13,40 @@ This project is derived from the MIT-licensed Electron edition of ClipBoardLine 
 
 ## Status — read this first
 
-Verified on EndeavourOS, Hyprland 0.56, Electron 44, 28 Oct 2026:
+Tested on EndeavourOS, Hyprland 0.56, Electron 44, 28 Oct 2026, by driving the running app (its command API, `wl-paste`, `ydotool`, screenshots):
 
-- starts as a Wayland window with the three shelves
-- copied URLs are detected and stored on the Links shelf (`wl-paste --watch`)
-- paste into the previous window (Ctrl+Enter): a copied link was pasted into a GTK text field (`zenity --entry`) using `ydotool`. Terminals such as `foot` paste with Ctrl+Shift+V, so Ctrl+V does not paste there
-- the shelves take keyboard focus when opened through `packaging/clipline` (they need no other panel holding keyboard focus: an open `quickshell:sidebarLeft` swallowed all keys during testing)
+**Works (verified)**
 
-**Not verified, or not working:**
+- starts as a Wayland window with the Images / Texts / Links shelves
+- capture of links, text and images (text and image capture are off by default; turn them on in Settings)
+- OCR on a captured image (Tesseract, English/Turkish data from `node_modules`)
+- Library window: pin, folders, tags, name, note, trash and undo, sidebar and inspector
+- copy of a text item or a single image back to the clipboard (through `wl-copy`)
+- paste into the previous window with Ctrl+Enter: the selected item (not whatever was already on the clipboard) was pasted into a GTK text field (`zenity --entry`) via `ydotool`
+- saving an edited image, "copy OCR text", new note, link refresh (the command API accepted them; the editor UI itself was not driven)
+- the shelves take keyboard focus when opened through `packaging/clipline`
 
-- global shortcuts: Electron cannot register them on Wayland, so bind a key in Hyprland instead (see below); the Hyprland bind itself was loaded without errors but not pressed for real
-- OCR, image search, link enrichment (code is unchanged from upstream, untested on Linux)
-- screen-recording import and trim (needs a Linux media backend; currently reports "not available")
-- packaging (no AppImage/AUR package yet)
-- the macOS-only features of upstream are not part of this port
+**Not working**
+
+- offline image search (MobileCLIP): the model files are not part of this repository, the app reports "unavailable"
+- screen-recording import and trim (needs a Linux media backend)
+- automatic updates (disabled on Linux)
+- copying text and an image together: Wayland clipboards via `wl-copy` offer one MIME type, so an image wins over text; several images are copied as a `text/uri-list`
+- paste target safety: every window is treated as editable, so paste can reach a password field
+
+**Not tested**
+
+- the image editor UI (crop, markup), preview, drag and drop out of the shelves, export dialogs, tray icon
+- settings changes for theme, card size and language (a command-API patch was accepted but the values did not change; the valid values are not documented here)
+- "clear unsaved history" (accepted, effect not confirmed)
+- the Hyprland key binding (loaded without errors, not pressed for real)
+- packaging (no AppImage/AUR package)
+
+**Caveats**
+
+- Terminals paste with Ctrl+Shift+V, so Ctrl+V does not paste there.
+- Keyboard input must not be held by another panel: an open `quickshell:sidebarLeft` swallowed all keys during testing.
+- Electron cannot register global shortcuts on Wayland: bind a key in Hyprland instead (see below).
 
 ## Requirements
 
