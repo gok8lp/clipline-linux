@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Clipline
+Comment=Keyboard-first clipboard shelves and library
+Exec=sh -c 'cd "$HOME/.local/share/clipline-linux" && exec node_modules/electron/dist/electron --ozone-platform=wayland .'
+Icon=clipline
+Terminal=false
+Categories=Utility;

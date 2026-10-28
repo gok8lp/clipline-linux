@@ -1,0 +1,32 @@
+{
+  "name": "clipline-linux",
+  "version": "1.7.8",
+  "description": "Keyboard-first clipboard shelves and local library for Linux (Wayland/Hyprland). Unofficial Linux port of ClipBoardLine.",
+  "author": "Clipline Linux contributors",
+  "license": "MIT",
+  "private": false,
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron --ozone-platform=wayland .",
+    "test": "node --check main.cjs && node --check lib/native.cjs"
+  },
+  "dependencies": {
+    "@tesseract.js-data/eng": "1.0.0",
+    "@tesseract.js-data/tur": "1.0.0",
+    "onnxruntime-web": "1.30.0",
+    "tesseract.js": "7.0.0"
+  },
+  "devDependencies": {
+    "electron": "44.9.1",
+    "electron-builder": "26.15.3",
+    "playwright": "1.64.1"
+  },
+  "overrides": {
+    "global-agent": "4.1.3"
+  },
+  "clipboardLineBuild": 71,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gok8lp/clipline-linux.git"
+  }
+}
